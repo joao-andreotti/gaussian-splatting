@@ -9,8 +9,6 @@
 
 - interactivly viewing
 
-...
-
 - revisit colmap to extract FOV -> better initialization of points
 
 - differente learning rates for the parameters
