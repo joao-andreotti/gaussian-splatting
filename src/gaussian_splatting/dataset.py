@@ -63,8 +63,9 @@ class View:
             raise Exception(f"Camera model {self.image.camera.model} not allowed.")
         
         # fov
-        self.fovx = 2 * np.arctan(self.width/(2*self.focal[0]))
-        self.fovy = 2 * np.arctan(self.height/(2*self.focal[1]))
+        focalx, focaly = self.focal
+        self.fovx = 2 * np.arctan(self.width /(2*focalx))
+        self.fovy = 2 * np.arctan(self.height/(2*focaly))
     
     def viewmatrix(self, include_intrinsics: bool = False):
         eye = - self.rotation.T @ self.position.reshape(-1, 1)
@@ -88,13 +89,11 @@ class View:
 
     def projmatrix(
         self, 
-        znear: float = 0.1,
+        znear: float = 1,
         zfar: float = 100,
-        fovx: float = np.pi / 2, 
-        fovy: float = np.pi / 2 
     ) -> np.ndarray:
-        tanfovx = np.tan(fovx/2)
-        tanfovy = np.tan(fovy/2)
+        tanfovx = np.tan(self.fovx/2)
+        tanfovy = np.tan(self.fovy/2)
         top = znear * tanfovy
         bottom = -top
         right = znear * tanfovx
@@ -102,6 +101,6 @@ class View:
         return np.array([
             [2 * znear / (right - left),    0,                          (right+left)/(right-left),      0                        ],
             [0,                             2 * znear / (top - bottom), (top + bottom)/(top - bottom),  0                        ],
-            [0,                             0,                          (znear + zfar)/(zfar - znear),  2*zfar*znear/(zfar-znear)],
+            [0,                             0,                          (znear + zfar)/(zfar - znear),  zfar*znear/(zfar-znear)],
             [0,                             0,                          1,                              0                        ]
         ])

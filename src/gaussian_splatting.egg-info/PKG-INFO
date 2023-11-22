@@ -1,0 +1,12 @@
+Metadata-Version: 2.1
+Name: gaussian-splatting
+Version: 0.1.0
+Summary: Gaussian Splatting
+Home-page: https://github.com/joao-andreotti/gaussian-splatting
+Author: 
+Author-email: 
+Classifier: License :: OSI Approved :: MIT License
+Classifier: Programming Language :: Python :: 3
+Classifier: Operating System :: OS Independent
+Requires-Python: >=3.8
+License-File: LICENSE

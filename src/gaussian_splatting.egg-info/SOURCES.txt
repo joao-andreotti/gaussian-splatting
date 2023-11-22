@@ -1,0 +1,7 @@
+LICENSE
+README.md
+setup.py
+src/gaussian_splatting.egg-info/PKG-INFO
+src/gaussian_splatting.egg-info/SOURCES.txt
+src/gaussian_splatting.egg-info/dependency_links.txt
+src/gaussian_splatting.egg-info/top_level.txt
