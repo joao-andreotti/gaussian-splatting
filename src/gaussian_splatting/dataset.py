@@ -68,9 +68,8 @@ class View:
         self.fovy = 2 * np.arctan(self.height/(2*focaly))
     
     def viewmatrix(self, include_intrinsics: bool = False):
-        eye = - self.rotation.T @ self.position.reshape(-1, 1)
         viewmatrix = np.block([
-            [self.rotation,     eye ],
+            [self.rotation,     self.position.reshape(-1, 1) ],
             [np.zeros((1, 3)),  1   ]
         ])
 
