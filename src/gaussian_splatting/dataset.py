@@ -1,6 +1,6 @@
 from dataclasses import dataclass
 from typing import List, Iterable, Dict, Tuple
-from colmap import Camera, Point3D, Image
+from gaussian_splatting.colmap import Camera, Point3D, Image
 
 import numpy as np
 
