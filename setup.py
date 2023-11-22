@@ -9,8 +9,7 @@ setup(
     url='https://github.com/joao-andreotti/gaussian-splatting',
     package_dir={'': 'src'},
     packages=find_packages(where='src'),
-    install_requires=[
-    ],
+    install_requires=[],
     classifiers=[
         'License :: OSI Approved :: MIT License',
         'Programming Language :: Python :: 3',
