@@ -88,7 +88,7 @@ class View:
 
     def projmatrix(
         self, 
-        znear: float = 1,
+        znear: float = 0.1,
         zfar: float = 100,
     ) -> np.ndarray:
         tanfovx = np.tan(self.fovx/2)

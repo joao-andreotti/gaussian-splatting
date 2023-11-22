@@ -1,15 +1,17 @@
 # TODO
 
-- organize everything in the actual repo ....
+- organize everything in the actual repo .... [YES]
 
-- reimplement the SSIM loss on pytorch to keep compuations on GPU
+- reimplement the SSIM loss on pytorch to keep compuations on GPU [YES]
     - needs a perf stratification analysis to verify that that is the bottleneck [YES]
 
 - use the datasets from the paper  ->  maybe extracting images from video not a good idea...
+    - colmap script done [YES]
+    - download script
 
 - interactivly viewing
 
-- revisit colmap to extract FOV -> better initialization of points
+- revisit colmap to extract FOV -> better initialization of points [YES]
 
 - differente learning rates for the parameters
 
