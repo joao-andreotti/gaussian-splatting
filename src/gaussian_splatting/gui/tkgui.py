@@ -57,6 +57,7 @@ class TkGUI(GUI):
         height: int,
         initial_position: tuple[float, float, float] = (0, 0, 0),
         background_color: tuple[float, float, float] = (0, 0, 0),
+        fov: tuple[float, float] = (0, 0),
         help_on_startup: bool = True,
     ) -> None:
         self.renderer = renderer    
@@ -64,6 +65,7 @@ class TkGUI(GUI):
         self.height = height
         self.running = False
         self.background_color = background_color
+        self.fov = fov
         self.help_on_startup = help_on_startup
 
         # initialize default camera parameters
@@ -118,6 +120,7 @@ class TkGUI(GUI):
             world_z=self.world_z,
             world_x=self.world_x,
             background_color=self.background_color,
+            fov=self.fov
         )
         new_image = (rendered * 255).astype(np.uint8)
         return ImageTk.PhotoImage(PILImage.fromarray(new_image))

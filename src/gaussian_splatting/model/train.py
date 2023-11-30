@@ -93,8 +93,7 @@ def adaptive_density_control(
         rotations=new_rotations.detach().requires_grad_(),
     )
 
-#TODO: maybe attaching an image directly with the image may be a nice addon. it would be nice to not have this
-# dangling index.
+
 def train(
     gaussian_cloud: GaussianCloud,
     train_dataset: list[View],

@@ -100,6 +100,16 @@ class GaussianCloud:
         with open(path, "wb") as file:
             pickle.dump(self.parameters, file)
 
+    @classmethod
+    def load(cls, path: str) -> "GaussianCloud":
+        """Loads pickled cloud from a file.
+
+        Args:
+            path: path from which to load the pickled cloud.
+        """
+        with open(path, "rb") as file:
+            return cls(**pickle.load(file))
+        
     def train(self) -> "GaussianCloud":
         """Puts all parameters in training mode.
         This makes all tensors require a gradient.
@@ -125,16 +135,6 @@ class GaussianCloud:
         self.rotations.requires_grad = False
         return self
     
-    @classmethod
-    def load(cls, path: str) -> "GaussianCloud":
-        """Loads pickled cloud from a file.
-
-        Args:
-            path: path from which to load the pickled cloud.
-        """
-        with open(path, "rb") as file:
-            return cls(**pickle.load(file))
-        
     @classmethod
     def from_point_cloud(
         cls, 
