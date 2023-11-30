@@ -1,4 +1,10 @@
+<div align="center">
+
 # Gaussian Splatting
+![Image comparisson](./assets/image.png)
+</div>
+
+
 
 This repo is a reimplemntation of the Gaussian Splatting techniques as described in the paper https://repo-sam.inria.fr/fungraph/3d-gaussian-splatting/
 
@@ -10,7 +16,8 @@ It is build on top of the Differential Gaussian Rasterizer (provided as a submod
 
 The rasterizer only works on CUDA devices, so make sure your machine has support for that.
 
-## Installing
+
+## 📥 Installing
 To install this library, you first need to pull the directory with its submodules:
 ```bash
 git clone https://github.com/joao-andreotti/gaussian-splatting.git --recursive
@@ -38,7 +45,7 @@ cd ../..
 Now you are all set to run scripts, notebooks and train models!
 
 
-## Datasets
+## 🗃 Datasets
 We provide two ways of importing datasets into the rasterizer: via downloading the synthetic NERF datasets (https://paperswithcode.com/dataset/nerf) of via a video you can record from your phone. Lets go into detail on how to use both.
 
 Keep in mind that for both approaches you need to have colmap installed on your machine. It is not necessary to have CUDA support at this time. Check https://colmap.github.io/install.html for more information on how to install it.
@@ -81,7 +88,7 @@ sh ./scripts/process_video.sh  ./data/my_video.mp4 ./data/my_data 100
 
 This will extract the data from `100` sample frames from your video, extract the pointcloud via colmap and save everything under the `./data/my_data` directory.
 
-## Training
+## 🏋️‍♀️ Training
 With a dataset in hands we can start to fit our own splattings!
 For this there is a provided interactive notebook under `./notebooks/gaussian_splatting.ipynb`.
 
@@ -99,7 +106,7 @@ This will fit a model and save the trained parameters under `./models/cat.pkl`.
 If you want more detail on how the colmap output can be parsed, refer to `examples/parsing_colmap.py`.
 
 
-## Visualizing
+## 👁 Visualizing
 In order to better visualize and understand the capacities and limitations of this technique, we have provided a GUI interface to play with a fitted gaussian model.
 
 This is based on **TKinter** so make sure to have it properly installed (follow https://docs.python.org/3/library/tkinter.html) and that you have a display available (SSH connections to remote machines won't cut it...).
@@ -119,7 +126,7 @@ This script should launch the tkinter GUI application to help you visualize the 
 The script is only a demo. If you want to play with the parameters (camera position, background color, FoV, window size, ...) please refer to `./examples/gui[_from_image].py`.
 
 
-## Extensions
+## 🔜 Extensions
 - Experiment with different learning rates for different parameters.
 - Try different regularization techniques to get rid of floaters.
 
