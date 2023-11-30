@@ -11,21 +11,8 @@ from gaussian_splatting.gui.renderer import Renderer
 from gaussian_splatting.gui.gui import GUI
 from gaussian_splatting.utils import quaternion_to_rotation_matrix, rotation_x, rotation_y, rotation_z
 
-def reactive(update):
-    """Decorator for TK listener methods that triggers updates.
-    Decorate any listening before binding to call the update funciton after. 
-    Args:
-        update ((self) -> None): class method that updates the UI accordingly.
-            It receives no arguments and returns None.
-    """
-    def decorator(method):
-        def wrapper(self, event: tk.Event):
-            method(self, event)
-            update(self)
-        return wrapper
-    return decorator
 
-help_text = f"""
+HELP_TEXT = f"""
 
 Esc:                    Close the window.
 H:                      Open this help window.
@@ -47,6 +34,19 @@ keyboard controls:
 
 """
 
+def reactive(update):
+    """Decorator for TK listener methods that triggers updates.
+    Decorate any listening before binding to call the update funciton after. 
+    Args:
+        update ((self) -> None): class method that updates the UI accordingly.
+            It receives no arguments and returns None.
+    """
+    def decorator(method):
+        def wrapper(self, event: tk.Event):
+            method(self, event)
+            update(self)
+        return wrapper
+    return decorator
 
 class TkGUI(GUI):
     def __init__(
@@ -139,7 +139,7 @@ class TkGUI(GUI):
         popup.attributes("-topmost", True)
         popup.title("Instructions")
         tk.Label(popup, text="Welcome to the Gaussian Splatting GUI", font=("Courier", 16)).pack(pady=10, padx=10, fill='x')
-        tk.Label(popup, justify='left', anchor='w', font=("Courier", 12), text=help_text).pack(pady=10, padx=10, fill='x')
+        tk.Label(popup, justify='left', anchor='w', font=("Courier", 12), text=HELP_TEXT).pack(pady=10, padx=10, fill='x')
 
     # TK event listeners
     @reactive(_update_image)

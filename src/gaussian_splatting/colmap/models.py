@@ -7,10 +7,10 @@ import numpy.typing as npt
 @dataclass
 class Camera:
     idx: int
-    model: str
+    model: str # from colmap documentation
     width: int
     height: int
-    parameters: list
+    parameters: list[str]
 
 @dataclass
 class Point3D:
