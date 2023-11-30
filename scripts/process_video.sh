@@ -1,11 +1,11 @@
 #!/bin/bash
 
-# usage: ./process.sh  [video_path] [output_path] [images_path] [sample_size]
+# usage: ./process_video.sh  [video_path] [output_path] [sample_size]
 
 VIDEO_PATH=$1
 OUTPUT_PATH=$2
-IMAGES_PATH=$3
-SAMPLE_SIZE=$4
+IMAGES_PATH="$OUTPUT_PATH/images"
+SAMPLE_SIZE=$3
 
 # Check if the source and destination folders are provided
 if [ -z "$VIDEO_PATH" ]; then
@@ -40,7 +40,7 @@ find ./_tmp/images -type f | shuf -n "$SAMPLE_SIZE" | xargs -I {} cp {} ./_tmp/s
 colmap automatic_reconstructor \
     --workspace_path ./_tmp \
     --image_path ./_tmp/sample_images \
-    --camera_model SIMPLE_RADIAL;
+    --camera_model PINHOLE;
 
 # converting colmap output
 colmap model_converter \
