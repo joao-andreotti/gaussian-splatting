@@ -1,29 +1,10 @@
-from dataclasses import dataclass
-from typing import Dict, List, Optional, Tuple
+__all__  = ["clean_text", "parse_cameras", "parse_points3d", "parse_images"]
 
+from typing import Dict, List, Tuple
 
-@dataclass
-class Camera:
-    idx: int
-    model: str
-    width: int
-    height: int
-    parameters: list
+import numpy.typing as npt
 
-@dataclass
-class Point3D:
-    idx: int
-    position: Tuple[float, float, float]
-    color: Tuple[int, int, int]
-
-@dataclass
-class Image:
-    idx: int
-    view_position: Tuple[float, float, float] # translation
-    view_orientation: Tuple[float, float, float, float] # quaternion
-    camera: Camera
-    name: str
-    points: List[Tuple[float, float, Optional[Point3D]]]
+from gaussian_splatting.colmap.models import Camera, Image, Point3D
 
 def gather_by(step: int, data: list) -> List[Tuple]:
     lists = [data[start::step] for start in range(step)]
@@ -35,7 +16,6 @@ def remove_comments(source: List[str]) -> List[str]:
 def clean_text(source: List[str]) -> List[str]:
     without_comments = remove_comments(source)
     return [line.rstrip("\n") for line in without_comments]
-
 
 def parse_cameras(source: List[str]) -> Dict[int, Camera]:
     cameras: Dict[int, Camera] = {}
@@ -64,8 +44,18 @@ def parse_images(
         source: List[str], 
         cameras: Dict[int, Camera], 
         points3d: Dict[int, Point3D],
+        images: Dict[str, npt.NDArray]
     ) -> Dict[int, Image]:
-    images: Dict[int, Image] = {}
+    """Parse colmap image information.
+    Args:
+        source: the source content of the colmap file.
+        cameras: related cameras indexed by their id,
+        points3d: related 3d points from colmap indexed by their id,
+        images: loaded images indexed by their name e.g. "0019.png"
+    Returns:
+        Images indexed by their colmap index.
+    """
+    parsed_images: Dict[int, Image] = {}
     image_lines = gather_by(2, source) # grabing in pairs of lines
     for image_data, points_data in image_lines:
         [idx, qw, qx, qy, qz, tx, ty, tz, camera_id, name, *rest] = image_data.split(" ")
@@ -83,26 +73,17 @@ def parse_images(
             (float(x), float(y), points3d.get(int(point_3d_id)) if point_3d_id != "-1" else None)
             for x, y, point_3d_id in gather_by(3, points_data.split(" "))
         ]
-
+        
         image = Image(
             idx=int(idx),
             view_position=position,
             view_orientation=quaternion,
             camera=camera,
             name=name,
-            points=points
+            points=points,
+            image=images[name],
         )
 
-        images[image.idx] = image
+        parsed_images[image.idx] = image
 
-    return images
-
-if __name__ == "__main__":
-    with open("cloud/cameras.txt", "r")  as f:
-        cameras = parse_cameras(clean_text(f.readlines()))
-
-    with open("cloud/points3D.txt", "r")  as f:
-        points3d = parse_points3d(clean_text(f.readlines()))
-
-    with open("cloud/images.txt", "r")  as f:
-        images = parse_images(clean_text(f.readlines()), cameras, points3d)
+    return parsed_images

@@ -7,7 +7,7 @@
 
 - use the datasets from the paper  ->  maybe extracting images from video not a good idea...
     - colmap script done [YES]
-    - download script
+    - download script [YES]
 
 - interactivly viewing
 

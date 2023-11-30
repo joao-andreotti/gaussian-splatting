@@ -1,14 +1,21 @@
+__all__ = ["L1", "DSSIM"]
 import torch
 import torch.nn.functional as F
 
+def L1(
+    original_image: torch.Tensor,
+    rendered_image: torch.Tensor,
+) -> torch.Tensor:
+    """Computes the L1 loss between the two images.
+    """
+    return torch.abs(original_image - rendered_image).mean()
 
-def create_quare_window(window_size: int, channels: int) -> torch.Tensor:
+def create_square_window(window_size: int, channels: int) -> torch.Tensor:
     """Creates a square window for averaging."""
     window = torch.ones(
         (channels, 1, window_size, window_size), dtype=torch.float, device="cuda"
     )
     return window / (window_size * window_size)
-
 
 def DSSIM(
     original_image: torch.Tensor,
@@ -17,11 +24,13 @@ def DSSIM(
     window_size: int = 11,
     data_range: float = 1.0
 ) -> torch.Tensor:
-    """Computes the structural similarity index between two images.
+    """Computes the structural dis-similarity index between two images.
+    DSSIM = 1 - SSIM
+    This formulation adapts SSIM nicely into a loss function.
     Adapted from: Po-Hsun-Su/pytorch-ssim.git
     """
     channels = original_image.shape[0]
-    window = create_quare_window(window_size, channels=channels)
+    window = create_square_window(window_size, channels=channels)
 
     mu1 = F.conv2d(original_image, window, padding="same", groups=channels)
     mu2 = F.conv2d(rendered_image, window, padding="same", groups=channels)
